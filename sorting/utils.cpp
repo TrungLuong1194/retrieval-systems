@@ -42,8 +42,3 @@ void print_array(std::vector<int> arr)
 
 	std::cout << "\n";
 }
-
-void print_hello()
-{
-        std::cout << "Hello";
-}
