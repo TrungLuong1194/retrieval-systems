@@ -1,0 +1,25 @@
+
+Bubble Sort:
+
+- Number of Comparations: 175
+- Number of Permutations: 96
+
+Insertion Sort:
+
+- Number of Comparations: 96
+- Number of Swaps: 115
+
+Selection Sort:
+
+- Number of Comparations: 190
+- Number of Permutations: 16
+
+Merge Sort:
+
+- Number of Comparations: 66
+- Number of Swaps: 88
+
+Quick Sort:
+
+- Number of Comparations: 60
+- Number of Permutations: 44

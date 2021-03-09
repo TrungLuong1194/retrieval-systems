@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "utils.h"
@@ -90,7 +91,7 @@ void mergeSort(std::vector<int> &arr, int l, int r, int &numComps, int &numSwaps
 int main()
 {
 	// Generate random numbers array
-	std::vector<int> arr = gen_random_array(10);
+	std::vector<int> arr = gen_random_array(20);
 
 	// Merge Sort
 	int numComps = 0;
@@ -102,6 +103,16 @@ int main()
 	print_array(arr);
 
 	std::cout << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
+
+	// Open a file to save result
+	std::ofstream myfile;
+
+ 	myfile.open("result.txt", std::ios::app);
+
+ 	myfile << "\nMerge Sort:\n";
+ 	myfile << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
+
+ 	myfile.close();
 
 	return 0;
 }

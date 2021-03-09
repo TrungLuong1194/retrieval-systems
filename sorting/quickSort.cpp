@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "utils.h"
@@ -11,7 +12,7 @@ void swap(int *a, int *b)
 }
 
 /* Partition function: takes the last element as pivot*/
-int partition(std::vector<int> &arr, int low, int high, int &numComps, int &numSwaps)
+int partition(std::vector<int> &arr, int low, int high, int &numComps, int &numPerms)
 {
 	int pivot = arr[high];
 	int i = (low - 1); // index of smaller element
@@ -25,34 +26,34 @@ int partition(std::vector<int> &arr, int low, int high, int &numComps, int &numS
 			i++;
 			swap(&arr[i], &arr[j]);
 
-			numSwaps++;
+			numPerms++;
 		}
 	}
 
 	swap(&arr[i + 1], &arr[high]);
-	numSwaps++;
+	numPerms++;
 
 	return (i + 1);
 }
 
-void quickSort(std::vector<int> &arr, int low, int high, int &numComps, int &numSwaps)
+void quickSort(std::vector<int> &arr, int low, int high, int &numComps, int &numPerms)
 {
 	if (low < high)
 	{
 		int numComps1 = 0;
 	    int numComps2 = 0;
 	    int numComps3 = 0;
-	    int numSwaps1 = 0;
-	    int numSwaps2 = 0;
-	    int numSwaps3 = 0;
+	    int numPerms1 = 0;
+	    int numPerms2 = 0;
+	    int numPerms3 = 0;
 
-		int par = partition(arr, low, high, numComps1, numSwaps1);
+		int par = partition(arr, low, high, numComps1, numPerms1);
 
-		quickSort(arr, low, par - 1, numComps2, numSwaps2);
-		quickSort(arr, par + 1, high, numComps3, numSwaps3);
+		quickSort(arr, low, par - 1, numComps2, numPerms2);
+		quickSort(arr, par + 1, high, numComps3, numPerms3);
 
 		numComps += (numComps1 + numComps2 + numComps3);
-		numSwaps += (numSwaps1 + numSwaps2 + numSwaps3);
+		numPerms += (numPerms1 + numPerms2 + numPerms3);
 	}
 }
 
@@ -60,18 +61,28 @@ void quickSort(std::vector<int> &arr, int low, int high, int &numComps, int &num
 int main()
 {
 	// Generate random numbers array
-	std::vector<int> arr = gen_random_array(10);
+	std::vector<int> arr = gen_random_array(20);
 
 	// Quick Sort
 	int numComps = 0;
-    int numSwaps = 0;
+    int numPerms = 0;
 
-	quickSort(arr, 0, arr.size()-1, numComps, numSwaps);
+	quickSort(arr, 0, arr.size()-1, numComps, numPerms);
 
 	std::cout << "- Sorted array: \n";
 	print_array(arr);
 
-	std::cout << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
+	std::cout << "\n- Number of Comparations: " << numComps << "\n- Number of Permutations: " << numPerms << "\n";
+
+	// Open a file to save result
+	std::ofstream myfile;
+
+ 	myfile.open("result.txt", std::ios::app);
+
+ 	myfile << "\nQuick Sort:\n";
+ 	myfile << "\n- Number of Comparations: " << numComps << "\n- Number of Permutations: " << numPerms << "\n";
+
+ 	myfile.close();
 
 	return 0;
 }

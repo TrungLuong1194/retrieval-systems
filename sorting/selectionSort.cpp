@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "utils.h"
@@ -45,7 +46,7 @@ std::vector<int> selectionSort(std::vector<int> &arr)
 int main()
 {
 	// Generate random numbers array
-	std::vector<int> arr = gen_random_array(10);
+	std::vector<int> arr = gen_random_array(20);
 
 	// Selection Sort
 	std::vector<int> info = selectionSort(arr);
@@ -54,6 +55,16 @@ int main()
 	print_array(arr);
 
 	std::cout << "\n- Number of Comparations: " << info[0] << "\n- Number of Permutations: " << info[1] << "\n";
+
+	// Open a file to save result
+	std::ofstream myfile;
+
+ 	myfile.open("result.txt", std::ios::app);
+
+ 	myfile << "\nSelection Sort:\n";
+ 	myfile << "\n- Number of Comparations: " << info[0] << "\n- Number of Permutations: " << info[1] << "\n";
+
+ 	myfile.close();
 
 	return 0;
 }
