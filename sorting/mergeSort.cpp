@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm> // std::reverse
 
 #include "utils.h"
 
@@ -91,7 +92,18 @@ void mergeSort(std::vector<int> &arr, int l, int r, int &numComps, int &numSwaps
 int main()
 {
 	// Generate random numbers array
-	std::vector<int> arr = gen_random_array(20);
+	std::vector<int> arr = gen_random_array(40);
+
+	// Open a file to save result
+	std::ofstream myfile;
+
+	// Save to file
+ 	myfile.open("result.txt", std::ios::app);
+ 	myfile << "\n----------------------------------------------------\n";
+ 	myfile << "\nMerge Sort:\n";
+ 	myfile << "\n\t- Original array:\n";
+ 	myfile << "\t";
+ 	print_array_to_file(arr, myfile);
 
 	// Merge Sort
 	int numComps = 0;
@@ -99,18 +111,45 @@ int main()
 
 	mergeSort(arr, 0, arr.size()-1, numComps, numSwaps);
 
-	std::cout << "- Sorted array: \n";
-	print_array(arr);
+	// std::cout << "- Sorted array: \n";
+	// print_array(arr);
+	// std::cout << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
 
-	std::cout << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
+	// Save to file
+ 	myfile << "\n\t- Sorted array:\n";
+ 	myfile << "\t";
+ 	print_array_to_file(arr, myfile);
+ 	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Swaps: " << numSwaps << "\n";
 
-	// Open a file to save result
-	std::ofstream myfile;
+ 	// Sorting when array is in place
+ 	int numComps1 = 0;
+    int numSwaps1 = 0;
 
- 	myfile.open("result.txt", std::ios::app);
+	mergeSort(arr, 0, arr.size()-1, numComps1, numSwaps1);
 
- 	myfile << "\nMerge Sort:\n";
- 	myfile << "\n- Number of Comparations: " << numComps << "\n- Number of Swaps: " << numSwaps << "\n";
+ 	myfile << "\n- Sorting when array is in place:\n";
+ 	myfile << "\n\t- Sorted array:\n";
+ 	myfile << "\t";
+ 	print_array_to_file(arr, myfile);
+ 	myfile << "\n\t- Number of Comparations: " << numComps1 << "\n\t- Number of Swaps: " << numSwaps1 << "\n";
+
+ 	// Sorting when array reversed
+ 	std::reverse(arr.begin(), arr.end());
+
+ 	myfile << "\n- Sorting when array reversed:\n";
+ 	myfile << "\n\t- Reversed array:\n";
+ 	myfile << "\t";
+ 	print_array_to_file(arr, myfile);
+
+ 	int numComps2 = 0;
+    int numSwaps2 = 0;
+
+	mergeSort(arr, 0, arr.size()-1, numComps2, numSwaps2);
+
+ 	myfile << "\n\t- Sorted array:\n";
+ 	myfile << "\t";
+ 	print_array_to_file(arr, myfile);
+ 	myfile << "\n\t- Number of Comparations: " << numComps2 << "\n\t- Number of Swaps: " << numSwaps2 << "\n";
 
  	myfile.close();
 
