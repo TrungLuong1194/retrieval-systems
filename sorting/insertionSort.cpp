@@ -17,18 +17,23 @@ std::vector<int> insertionSort(std::vector<int> &arr)
 		key = arr[i];
 		j = i - 1;
 
+		numComps++;
+
 		while (j >=0 && arr[j] > key)
 		{
-			numComps++;
-
 			arr[j + 1] = arr[j];
 			j--;
 
 			numSwaps++;
+
+			if (j >= 0)
+				numComps++;
 		}
 
 		arr[j + 1] = key;
-		numSwaps++;
+
+		if ((j + 1) != i)
+			numSwaps++;
 	}
 
 	info.push_back(numComps);

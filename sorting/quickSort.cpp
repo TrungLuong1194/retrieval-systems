@@ -5,6 +5,9 @@
 
 #include "utils.h"
 
+int numComps = 0;
+int numPerms = 0;
+
 void swap(int *a, int *b)
 {
 	int tmp = *a;
@@ -13,12 +16,12 @@ void swap(int *a, int *b)
 }
 
 /* Partition function: takes the last element as pivot*/
-int partition(std::vector<int> &arr, int low, int high, int &numComps, int &numPerms)
+int partition(std::vector<int> &arr, int lo, int hi)
 {
-	int pivot = arr[high];
-	int i = (low - 1); // index of smaller element
+	int pivot = arr[hi];
+	int i = (lo - 1); // index of smaller element
 
-	for (int j = low; j <= high - 1; j++)
+	for (int j = lo; j <= hi - 1; j++)
 	{
 		numComps++;
 
@@ -27,34 +30,27 @@ int partition(std::vector<int> &arr, int low, int high, int &numComps, int &numP
 			i++;
 			swap(&arr[i], &arr[j]);
 
-			numPerms++;
+			if (i != j)
+				numPerms++;
 		}
 	}
 
-	swap(&arr[i + 1], &arr[high]);
-	numPerms++;
+	swap(&arr[i + 1], &arr[hi]);
+	
+	if ((i + 1) != hi)
+		numPerms++;
 
 	return (i + 1);
 }
 
-void quickSort(std::vector<int> &arr, int low, int high, int &numComps, int &numPerms)
+void quickSort(std::vector<int> &arr, int lo, int hi)
 {
-	if (low < high)
+	if (lo < hi)
 	{
-		int numComps1 = 0;
-	    int numComps2 = 0;
-	    int numComps3 = 0;
-	    int numPerms1 = 0;
-	    int numPerms2 = 0;
-	    int numPerms3 = 0;
+		int p = partition(arr, lo, hi);
 
-		int par = partition(arr, low, high, numComps1, numPerms1);
-
-		quickSort(arr, low, par - 1, numComps2, numPerms2);
-		quickSort(arr, par + 1, high, numComps3, numPerms3);
-
-		numComps += (numComps1 + numComps2 + numComps3);
-		numPerms += (numPerms1 + numPerms2 + numPerms3);
+		quickSort(arr, lo, p - 1);
+		quickSort(arr, p + 1, hi);
 	}
 }
 
@@ -76,10 +72,7 @@ int main()
  	print_array_to_file(arr, myfile);
 
 	// Quick Sort
-	int numComps = 0;
-    int numPerms = 0;
-
-	quickSort(arr, 0, arr.size()-1, numComps, numPerms);
+	quickSort(arr, 0, arr.size()-1);
 
 	// std::cout << "- Sorted array: \n";
 	// print_array(arr);
@@ -92,16 +85,16 @@ int main()
  	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Permutations: " << numPerms << "\n";
 
  	// Sorting when array is in place
- 	int numComps1 = 0;
-    int numPerms1 = 0;
+ 	numComps = 0;
+    numPerms = 0;
 
-	quickSort(arr, 0, arr.size()-1, numComps1, numPerms1);
+	quickSort(arr, 0, arr.size()-1);
 
  	myfile << "\n- Sorting when array is in place:\n";
  	myfile << "\n\t- Sorted array:\n";
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
- 	myfile << "\n\t- Number of Comparations: " << numComps1 << "\n\t- Number of Permutations: " << numPerms1 << "\n";
+ 	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Permutations: " << numPerms << "\n";
 
  	// Sorting when array reversed
  	std::reverse(arr.begin(), arr.end());
@@ -111,15 +104,15 @@ int main()
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
 
- 	int numComps2 = 0;
-    int numPerms2 = 0;
+ 	numComps = 0;
+    numPerms = 0;
 
-	quickSort(arr, 0, arr.size()-1, numComps2, numPerms2);
+	quickSort(arr, 0, arr.size()-1);
 
  	myfile << "\n\t- Sorted array:\n";
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
- 	myfile << "\n\t- Number of Comparations: " << numComps2 << "\n\t- Number of Permutations: " << numPerms2 << "\n";
+ 	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Permutations: " << numPerms << "\n";
 
  	myfile.close();
 

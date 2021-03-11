@@ -5,7 +5,10 @@
 
 #include "utils.h"
 
-void merge(std::vector<int> &arr, int l, int m, int r, int &numComps, int &numSwaps)
+int numComps = 0;
+int numSwaps = 0;
+
+void merge(std::vector<int> &arr, int l, int m, int r)
 {
 	int n1 = m - l + 1;
 	int n2 = r - m;
@@ -30,17 +33,19 @@ void merge(std::vector<int> &arr, int l, int m, int r, int &numComps, int &numSw
 
 		if (L[i] <= R[j])
 		{
+			if (arr[k] != L[i])
+				numSwaps++;
+
 			arr[k] = L[i];
 			i++;
-
-			numSwaps++;
 		} 
 		else
 		{
+			if (arr[k] != R[j])
+				numSwaps++;
+
 			arr[k] = R[j];
 			j++;
-
-			numSwaps++;
 		}
 
 		k++;
@@ -49,42 +54,34 @@ void merge(std::vector<int> &arr, int l, int m, int r, int &numComps, int &numSw
 	// copy the remaining elements of subarrays
 	while (i < n1)
 	{
+		if (arr[k] != L[i])
+			numSwaps++;
+
 		arr[k] = L[i];
 		i++;
 		k++;
-
-		numSwaps++;
 	}
 
 	while (j < n2)
 	{
+		if (arr[k] != R[j])
+			numSwaps++;
+
 		arr[k] = R[j];
 		j++;
 		k++;
-
-		numSwaps++;
 	}
 }
 
-void mergeSort(std::vector<int> &arr, int l, int r, int &numComps, int &numSwaps)
+void mergeSort(std::vector<int> &arr, int l, int r)
 {
 	if (l < r)
 	{
-        int numComps1 = 0;
-	    int numComps2 = 0;
-	    int numComps3 = 0;
-	    int numSwaps1 = 0;
-	    int numSwaps2 = 0;
-	    int numSwaps3 = 0;
+		int m = (l + r) / 2;
 
-		int m = l + (r - l) / 2;
-
-		mergeSort(arr, l, m, numComps1, numSwaps1);
-		mergeSort(arr, m+1, r, numComps2, numSwaps2);
-		merge(arr, l, m, r, numComps3, numSwaps3);
-
-		numComps += (numComps1 + numComps2 + numComps3);
-		numSwaps += (numSwaps1 + numSwaps2 + numSwaps3);
+		mergeSort(arr, l, m);
+		mergeSort(arr, m+1, r);
+		merge(arr, l, m, r);
     }
 }
 
@@ -106,10 +103,7 @@ int main()
  	print_array_to_file(arr, myfile);
 
 	// Merge Sort
-	int numComps = 0;
-    int numSwaps = 0;
-
-	mergeSort(arr, 0, arr.size()-1, numComps, numSwaps);
+	mergeSort(arr, 0, arr.size()-1);
 
 	// std::cout << "- Sorted array: \n";
 	// print_array(arr);
@@ -122,16 +116,16 @@ int main()
  	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Swaps: " << numSwaps << "\n";
 
  	// Sorting when array is in place
- 	int numComps1 = 0;
-    int numSwaps1 = 0;
+ 	numComps = 0;
+    numSwaps = 0;
 
-	mergeSort(arr, 0, arr.size()-1, numComps1, numSwaps1);
+	mergeSort(arr, 0, arr.size()-1);
 
  	myfile << "\n- Sorting when array is in place:\n";
  	myfile << "\n\t- Sorted array:\n";
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
- 	myfile << "\n\t- Number of Comparations: " << numComps1 << "\n\t- Number of Swaps: " << numSwaps1 << "\n";
+ 	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Swaps: " << numSwaps << "\n";
 
  	// Sorting when array reversed
  	std::reverse(arr.begin(), arr.end());
@@ -141,15 +135,15 @@ int main()
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
 
- 	int numComps2 = 0;
-    int numSwaps2 = 0;
+ 	numComps = 0;
+    numSwaps = 0;
 
-	mergeSort(arr, 0, arr.size()-1, numComps2, numSwaps2);
+	mergeSort(arr, 0, arr.size()-1);
 
  	myfile << "\n\t- Sorted array:\n";
  	myfile << "\t";
  	print_array_to_file(arr, myfile);
- 	myfile << "\n\t- Number of Comparations: " << numComps2 << "\n\t- Number of Swaps: " << numSwaps2 << "\n";
+ 	myfile << "\n\t- Number of Comparations: " << numComps << "\n\t- Number of Swaps: " << numSwaps << "\n";
 
  	myfile.close();
 
