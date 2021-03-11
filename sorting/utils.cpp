@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cstdlib> // for std::rand() and std::srand()
 #include <ctime>   // for std::time()
 #include <vector>
@@ -24,15 +25,15 @@ std::vector<int> gen_random_array(int num)
 {
 	std::vector<int> arr;
 
-        for (int i = 1; i <= num; i++)
-                arr.push_back(PRNG());
+    for (int i = 1; i <= num; i++)
+            arr.push_back(PRNG());
 
-        return arr;
+    return arr;
 }
 
 void print_array(std::vector<int> arr)
 {
-        for (int i = 0; i < arr.size(); i++)
+    for (int i = 0; i < arr.size(); i++)
 	{
 		if (i == arr.size() - 1)
 			std::cout << arr[i];
@@ -41,4 +42,17 @@ void print_array(std::vector<int> arr)
 	}
 
 	std::cout << "\n";
+}
+
+void print_array_to_file(std::vector<int> arr, std::ofstream &myfile)
+{
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (i == arr.size() - 1)
+            myfile << arr[i];
+        else
+            myfile << arr[i] << " - ";
+    }
+
+    myfile << "\n";
 }
