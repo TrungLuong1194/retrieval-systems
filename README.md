@@ -8,3 +8,7 @@
 	- Merge Sort
 	- Quick Sort
 	
+## Lab 2:
+- Polyphase merge sort
+	- https://en.wikipedia.org/wiki/Polyphase_merge_sort
+	
