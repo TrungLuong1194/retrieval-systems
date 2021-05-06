@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     # Implement binary search
     number_search = 534
-    print('- Search number: ' + str(number_search))
+    print('\n- Search number: ' + str(number_search))
     result, comps = search(random_seq, number_search)
     print('Number of comparisons: ' + str(comps))
     if result == -1:
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         print('Index: ' + str(result))
 
     number_search = 150
-    print('- Search number: ' + str(number_search))
+    print('\n- Search number: ' + str(number_search))
     result, comps = search(random_seq, number_search)
     print('Number of comparisons: ' + str(comps))
     if result == -1:
